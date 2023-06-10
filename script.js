@@ -87,7 +87,7 @@ function adStack(){
         adStacks[i].forEach(ad => str+= ad + "\n");
     }
     
-    console.log(str);
+    // console.log(str);
     return {
         success: true,
         stack: adStacks
