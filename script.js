@@ -1,5 +1,3 @@
-console.log("script loaded");
-
 function adStack(){  
 
     function findAdStacks(){
@@ -69,8 +67,8 @@ function adStack(){
         var adIdArr = [];
         
         adLocs.forEach(adLoc => {
-            if(adLoc.adIds.length > 1)
-            adIdArr.push(adLoc.adIds);
+            if(adLoc.adIds.length > 1)       
+                adIdArr.push(adLoc.adIds);
         }); 
         
         return adIdArr;
