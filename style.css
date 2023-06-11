@@ -1,0 +1,84 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  background-color: #f6f6f6;
+}
+
+#Wrapper {
+  width: 25rem;
+  max-width: 100%;
+}
+
+table {
+  margin: 0.8rem;
+}
+
+th {
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #7d5fff;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+#statusTable td:not(:nth-child(2)) {
+  text-align: center;
+}
+
+td:nth-child(2) {
+  padding-left: 0.5rem;
+}
+
+.i-yes {
+  color: #1dd1a1;
+  font-size: 1.8rem;
+}
+
+.i-no {
+  color: #ff6b6b;
+  font-size: 1.2rem;
+}
+
+#header {
+  font-size: 1rem;
+  color: #6c63ff;
+  font-weight: 500;
+  padding: 1rem;
+}
+
+#ad_count,
+#total_count {
+  font-size: 0.8rem;
+  color: #484e5d;
+  padding: 0 1rem 1rem 1rem;
+}
+
+#Content {
+  width: 100%;
+  max-width: 20rem;
+  margin-left: 1rem;
+}
+
+.content_box {
+  padding: 1rem;
+  color: #484e5d;
+  font-weight: 500;
+  background-color: #6b63ff1a;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.content_box p:last-child {
+  display: flex;
+  align-items: center;
+}
+
+.elements--text {
+  color: #9da6b8;
+}
