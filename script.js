@@ -1,35 +1,33 @@
-console.log("script loaded");
-
 function adStack() {
-  function findAdStacks() {
-    function getAdIDs() {
-      //returns the ids of all the ads in the page
-      let dom = document.querySelectorAll("*");
-      let ids = [];
+  function getAdIDs() {
+    //returns the ids of all the ads in the page
+    let dom = document.querySelectorAll("*");
+    let ids = [];
 
-      dom.forEach((el) => {
-        if (el.id) {
-          var parts = el.id.split("-");
-          parts = parts.map((part) => part.toLowerCase());
-          if (parts.includes("ad") || parts.includes("ads")) ids.push(el.id);
-        }
-      });
+    dom.forEach((el) => {
+      if (el.id) {
+        var parts = el.id.split("-");
+        parts = parts.map((part) => part.toLowerCase());
+        if (parts.includes("ad") || parts.includes("ads")) ids.push(el.id);
+      }
+    });
 
-      return ids;
-    }
+    return ids;
+  }
 
-    function getDimens(el) {
-      //returns the dimensions of the element
-      const rect = el.getBoundingClientRect();
-      return {
-        id: el.id,
-        left: rect.left + window.scrollX,
-        right: rect.right,
-        top: rect.top + window.scrollY,
-        bottom: rect.bottom,
-      };
-    }
+  function getDimens(el) {
+    //returns the dimensions of the element
+    const rect = el.getBoundingClientRect();
+    return {
+      id: el.id,
+      left: rect.left + window.scrollX,
+      right: rect.right,
+      top: rect.top + window.scrollY,
+      bottom: rect.bottom,
+    };
+  }
 
+  function findAdStacks() {   
     const idArr = getAdIDs();
     //get the ids of all the ads in the page
 
@@ -77,20 +75,7 @@ function adStack() {
   }
 
   const adStacks = findAdStacks();
-  var str = "";
-  str += "ADs are being stacked at " + adStacks.length + " locations.\n";
-  // console.log("ADs are being stacked at " + adStacks.length + " locations.");
 
-  for (var i = 0; i < adStacks.length; i++) {
-    str +=
-      "At location " +
-      (i + 1) +
-      ", ADs with the following IDs are being stacked: \n";
-    // console.log("At location " + (i+1) + ", ADs with the following IDs are being stacked: ");
-    adStacks[i].forEach((ad) => (str += ad + "\n"));
-  }
-
-  // console.log(str);
   return {
     success: true,
     stack: adStacks,
@@ -120,14 +105,6 @@ function adStack() {
   stackPara.innerHTML = `There are ${adCount} ads on this page.`;
   if(adCount > 0)
     para.innerHTML = `Ads are being stacked at ${adStackCount} separate places.`;
-
-  //Grab
-  //   var statusTable = document.getElementById("statusTable");
-
-  //   var snoColumn = statusTable.getElementsByClassName("sno")[0];
-  //   var descriptionColumn = statusTable.getElementsByClassName("description")[0];
-  //   var countColumn = statusTable.getElementsByClassName("count")[0];
-  //   var statusColumn = statusTable.getElementsByClassName("status")[0];
 
   var content = document.getElementById("Content");
 
@@ -168,6 +145,49 @@ function adStack() {
     div.appendChild(status);
     content.appendChild(div);
   }
+
+  //block ads button
+  const blokButt = document.getElementById("blok-butt");  
+
+  if(adCount > 0){
+
+    function blockAds(){
+      function getAdIDs() {
+        let dom = document.querySelectorAll("*");
+        let ids = [];
+    
+        dom.forEach((el) => {
+          if (el.id) {
+            var parts = el.id.split("-");
+            parts = parts.map((part) => part.toLowerCase());
+            if (parts.includes("ad") || parts.includes("ads")) ids.push(el.id);
+          }
+        });
+    
+        return ids;
+      }
+
+      let adID = getAdIDs()
+      
+      console.log(adID);
+
+      adID.forEach(adId => {
+        document.getElementById(adId).style.display="none";
+      });
+    }
+
+    blokButt.addEventListener("click", async function() {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: blockAds,
+      });
+    });
+  } else {
+    blokButt.style.display="none";
+  }
+  
 })();
+
+
 
 
