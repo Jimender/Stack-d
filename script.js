@@ -176,12 +176,50 @@ function adStack() {
       });
     }
 
-    blokButt.addEventListener("click", async function() {
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: blockAds,
+    function unblockAds(){
+      function getAdIDs() {
+        let dom = document.querySelectorAll("*");
+        let ids = [];
+    
+        dom.forEach((el) => {
+          if (el.id) {
+            var parts = el.id.split("-");
+            parts = parts.map((part) => part.toLowerCase());
+            if (parts.includes("ad") || parts.includes("ads")) ids.push(el.id);
+          }
+        });
+    
+        return ids;
+      }
+
+      let adID = getAdIDs()
+      
+      console.log(adID);
+
+      adID.forEach(adId => {
+        document.getElementById(adId).style.display="block";
       });
+    }
+
+    blokButt.addEventListener("click", async function() {
+      if(blokButt.innerHTML === "Block Ads"){
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: blockAds,
+        });
+  
+        blokButt.innerHTML = "Unblock Ads";
+      } else {
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: unblockAds,
+        });
+  
+        blokButt.innerHTML = "Block Ads";
+      }
+      
     });
+
   } else {
     blokButt.style.display="none";
   }
