@@ -76,14 +76,18 @@ function adStack() {
       adIdArr.push(adLoc.adIds);
     });
 
-    return adIdArr;
+    return {
+      stack: adIdArr,
+      blockAds: idRet.blockedAds,
+    };
   }
 
   const adStacks = findAdStacks();
 
   return {
     success: true,
-    stack: adStacks,
+    stack: adStacks.stack,
+    adsblocked: adStacks.blockAds,
   };
 }
 
@@ -95,6 +99,9 @@ function adStack() {
   });
 
   const stackedAds = res[0].result.stack;
+  let adsblocked = res[0].result.adsblocked;
+
+  console.log(res);
 
   let adStackCount = 0;
   let adCount = stackedAds.length;
@@ -153,7 +160,10 @@ function adStack() {
   //block ads button
   const blockButton = document.getElementById("btn--block");
 
-  if (adCount > 0) {
+  if(adsblocked)
+    blockButton.innerHTML = "Unblock Ads";
+
+  if (adCount > 0 || adsblocked) {
     function blockAds() {
       function getAdIDs() {
         let dom = document.querySelectorAll("*");
@@ -205,20 +215,22 @@ function adStack() {
     }
 
     blockButton.addEventListener("click", async function () {
-      if (blockButton.innerHTML === "Block Ads") {
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          func: blockAds,
-        });
-
-        blockButton.innerHTML = "Unblock Ads";
-      } else {
+      if (adsblocked) {
+        adsblocked = false;
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: unblockAds,
         });
 
         blockButton.innerHTML = "Block Ads";
+      } else {
+        adsblocked = true;
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: blockAds,
+        });
+
+        blockButton.innerHTML = "Unblock Ads";
       }
     });
   } else {
