@@ -151,7 +151,7 @@ function adStack() {
   }
 
   //block ads button
-  const blokButt = document.getElementById("blok-butt");
+  const blockButton = document.getElementById("btn--block");
 
   if (adCount > 0) {
     function blockAds() {
@@ -204,24 +204,24 @@ function adStack() {
       });
     }
 
-    blokButt.addEventListener("click", async function () {
-      if (blokButt.innerHTML === "Block Ads") {
+    blockButton.addEventListener("click", async function () {
+      if (blockButton.innerHTML === "Block Ads") {
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: blockAds,
         });
 
-        blokButt.innerHTML = "Unblock Ads";
+        blockButton.innerHTML = "Unblock Ads";
       } else {
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: unblockAds,
         });
 
-        blokButt.innerHTML = "Block Ads";
+        blockButton.innerHTML = "Block Ads";
       }
     });
   } else {
-    blokButt.style.display = "none";
+    blockButton.style.display = "none";
   }
 })();
