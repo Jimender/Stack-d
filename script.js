@@ -216,7 +216,6 @@ function adStack() {
 
     blockButton.addEventListener("click", async function () {
       if (adsblocked) {
-        adsblocked = false;
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: unblockAds,
@@ -224,7 +223,6 @@ function adStack() {
 
         blockButton.innerHTML = "Block Ads";
       } else {
-        adsblocked = true;
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: blockAds,
@@ -232,6 +230,9 @@ function adStack() {
 
         blockButton.innerHTML = "Unblock Ads";
       }
+
+      adsblocked = !adsblocked;
+      location.reload();
     });
   } else {
     blockButton.style.display = "none";
