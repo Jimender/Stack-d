@@ -82,3 +82,17 @@ td:nth-child(2) {
 .elements--text {
   color: #9da6b8;
 }
+
+/* button */
+
+#btn--block{
+  width: 8rem;
+  padding: 0.8rem;
+  margin: 1rem;
+  border: none;
+  border-radius: 10px;
+  color: #b33939;
+  font-weight: 600;
+  background-color: #ff525239;
+  cursor: pointer;
+}

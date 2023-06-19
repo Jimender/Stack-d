@@ -5,7 +5,7 @@ function adStack() {
     let ids = [];
 
     dom.forEach((el) => {
-      if (el.id) {
+      if (el.style.display !== "none" && el.id) {
         var parts = el.id.split("-");
         parts = parts.map((part) => part.toLowerCase());
         if (parts.includes("ad") || parts.includes("ads")) ids.push(el.id);
@@ -147,15 +147,14 @@ function adStack() {
   }
 
   //block ads button
-  const blokButt = document.getElementById("blok-butt");  
+  const blockButton = document.getElementById("btn--block");
 
-  if(adCount > 0){
-
-    function blockAds(){
+  if (adCount > 0) {
+    function blockAds() {
       function getAdIDs() {
         let dom = document.querySelectorAll("*");
         let ids = [];
-    
+
         dom.forEach((el) => {
           if (el.id) {
             var parts = el.id.split("-");
@@ -163,24 +162,24 @@ function adStack() {
             if (parts.includes("ad") || parts.includes("ads")) ids.push(el.id);
           }
         });
-    
+
         return ids;
       }
 
-      let adID = getAdIDs()
-      
+      let adID = getAdIDs();
+
       console.log(adID);
 
-      adID.forEach(adId => {
-        document.getElementById(adId).style.display="none";
+      adID.forEach((adId) => {
+        document.getElementById(adId).style.display = "none";
       });
     }
 
-    function unblockAds(){
+    function unblockAds() {
       function getAdIDs() {
         let dom = document.querySelectorAll("*");
         let ids = [];
-    
+
         dom.forEach((el) => {
           if (el.id) {
             var parts = el.id.split("-");
@@ -188,40 +187,38 @@ function adStack() {
             if (parts.includes("ad") || parts.includes("ads")) ids.push(el.id);
           }
         });
-    
+
         return ids;
       }
 
-      let adID = getAdIDs()
-      
+      let adID = getAdIDs();
+
       console.log(adID);
 
-      adID.forEach(adId => {
-        document.getElementById(adId).style.display="block";
+      adID.forEach((adId) => {
+        document.getElementById(adId).style.display = "block";
       });
     }
 
-    blokButt.addEventListener("click", async function() {
-      if(blokButt.innerHTML === "Block Ads"){
+    blockButton.addEventListener("click", async function () {
+      if (blockButton.innerHTML === "Block Ads") {
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: blockAds,
         });
-  
-        blokButt.innerHTML = "Unblock Ads";
+
+        blockButton.innerHTML = "Unblock Ads";
       } else {
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: unblockAds,
         });
-  
-        blokButt.innerHTML = "Block Ads";
-      }
-      
-    });
 
+        blockButton.innerHTML = "Block Ads";
+      }
+    });
   } else {
-    blokButt.style.display="none";
+    blockButton.style.display = "none";
   }
   
 })();
