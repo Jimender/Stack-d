@@ -3,16 +3,20 @@ function adStack() {
     //returns the ids of all the ads in the page
     let dom = document.querySelectorAll("*");
     let ids = [];
-
+    let blockedAds = false;
     dom.forEach((el) => {
-      if (el.style.display !== "none" && el.id) {
+      if (el.style.display === "none") blockedAds = true;
+      else if (el.id) {
         var parts = el.id.split("-");
         parts = parts.map((part) => part.toLowerCase());
         if (parts.includes("ad") || parts.includes("ads")) ids.push(el.id);
       }
     });
 
-    return ids;
+    return {
+      ids: ids,
+      blockedAds: blockedAds,
+    };
   }
 
   function getDimens(el) {
@@ -27,8 +31,9 @@ function adStack() {
     };
   }
 
-  function findAdStacks() {   
-    const idArr = getAdIDs();
+  function findAdStacks() {
+    const idRet = getAdIDs();
+    const idArr = idRet.ids;
     //get the ids of all the ads in the page
 
     const elArr = idArr.map((id) => getDimens(document.getElementById(id)));
@@ -94,16 +99,15 @@ function adStack() {
   let adStackCount = 0;
   let adCount = stackedAds.length;
 
-  stackedAds.forEach( ad => {
-    if(ad.length > 1)
-        adStackCount++;
-  })
+  stackedAds.forEach((ad) => {
+    if (ad.length > 1) adStackCount++;
+  });
 
   const para = document.getElementById("ad_count");
   const stackPara = document.getElementById("total_count");
 
   stackPara.innerHTML = `There are ${adCount} ads on this page.`;
-  if(adCount > 0)
+  if (adCount > 0)
     para.innerHTML = `Ads are being stacked at ${adStackCount} separate places.`;
 
   var content = document.getElementById("Content");
@@ -220,9 +224,4 @@ function adStack() {
   } else {
     blockButton.style.display = "none";
   }
-  
 })();
-
-
-
-
