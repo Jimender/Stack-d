@@ -1,6 +1,7 @@
 function adStack() {
   function getAdIDs() {
-    //returns the ids of all the ads in the page
+    //returns the title ans ids of all the ads in the page
+    const title = document.getElementsByTagName("title")[0].text;
     let dom = document.querySelectorAll("*");
     let ids = [];
     let blockedAds = false;
@@ -15,6 +16,7 @@ function adStack() {
 
     return {
       ids: ids,
+      title,
       blockedAds: blockedAds,
     };
   }
@@ -79,6 +81,7 @@ function adStack() {
     return {
       stack: adIdArr,
       blockAds: idRet.blockedAds,
+      title: idRet.title,
     };
   }
 
@@ -88,6 +91,7 @@ function adStack() {
     success: true,
     stack: adStacks.stack,
     adsblocked: adStacks.blockAds,
+    title: adStacks.title,
   };
 }
 
@@ -97,11 +101,10 @@ function adStack() {
     target: { tabId: tab.id },
     func: adStack,
   });
-
+  const title = res[0].result.title;
+  console.log(title);
   const stackedAds = res[0].result.stack;
   let adsblocked = res[0].result.adsblocked;
-
-  console.log(res);
 
   let adStackCount = 0;
   let adCount = stackedAds.length;
@@ -160,8 +163,7 @@ function adStack() {
   //block ads button
   const blockButton = document.getElementById("btn--block");
 
-  if(adsblocked)
-    blockButton.innerHTML = "Unblock Ads";
+  if (adsblocked) blockButton.innerHTML = "Unblock Ads";
 
   if (adCount > 0 || adsblocked) {
     function blockAds() {
@@ -237,4 +239,19 @@ function adStack() {
   } else {
     blockButton.style.display = "none";
   }
+
+  //api call
+  const apiButton = document.getElementById("btn--api");
+
+  apiButton.addEventListener("click", async function () {
+    let data = { ...stackedAds, title };
+    let postReq = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
+    fetch("http://127.0.0.1:3000/item/new", postReq).then((res) =>
+      console.log(res)
+    );
+  });
 })();
