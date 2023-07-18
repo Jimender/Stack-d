@@ -244,7 +244,7 @@ function adStack() {
   const apiButton = document.getElementById("btn--api");
 
   apiButton.addEventListener("click", async function () {
-    let data = { ...stackedAds, title };
+    let data = { title, ads: stackedAds };
     let postReq = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
